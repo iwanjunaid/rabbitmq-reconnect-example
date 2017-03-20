@@ -106,5 +106,5 @@ connect(2000, (err, ch) => {
 });
 ```
 
-##Testing
+## Testing
 Try to run the example and after a few seconds try to shutdown and restart the RabbitMQ server.
