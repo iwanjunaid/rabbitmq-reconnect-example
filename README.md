@@ -17,14 +17,13 @@ To handle the error that comes from the first connection attempt, you need to ch
 
 ```javascript
 function connect(interval, callback) {
-	amqp.connect('amqp://localhost', (err, conn) => {
-		if (err) {
-			console.log('Cannot connect to RabbitMQ server! Retrying to connect...');
-		
-			return setTimeout(connect.bind(null, interval, callback), interval);
-		}
-	});
-		
+  amqp.connect('amqp://localhost', (err, conn) => {
+    if (err) {
+      console.log('Cannot connect to RabbitMQ server! Retrying to connect...');
+
+      return setTimeout(connect.bind(null, interval, callback), interval);
+    }
+  });
 }
 ``` 
 
@@ -32,21 +31,20 @@ function connect(interval, callback) {
  
 ```javascript
 function connect(interval, callback) {
-	amqp.connect('amqp://localhost', (err, conn) => {
-		if (err) {
-			...
-		}
-		
-		conn.on('close', (err) => {
-			if (err.code == 320) {
-				console.log('Connection to server closed!');
-				callback(new Error('connection closed'), null);
-				
-				return setTimeout(connect.bind(null, interval, callback), interval);
-			}
-		});
-	});
-		
+  amqp.connect('amqp://localhost', (err, conn) => {
+    if (err) {
+      ...
+    }
+
+    conn.on('close', (err) => {
+      if (err.code == 320) {
+        console.log('Connection to server closed!');
+        callback(new Error('connection closed'), null);
+
+        return setTimeout(connect.bind(null, interval, callback), interval);
+      }
+    });
+  });
 }
 ```
 
@@ -54,21 +52,21 @@ Last step is to call the connect's callback and supply it with the channel creat
 
 ```javascript
 function connect(interval, callback) {
-	amqp.connect('amqp://localhost', (err, conn) => {
-		if (err) {
-			...
-		}
-		
-		conn.on('close', (err) => {
-			...
-		});
-		
-		console.log('Connected to RabbitMQ server!');
-		
-		conn.createChannel((err, channel) => {
-			return callback(err, channel);
-		});
-	});
+  amqp.connect('amqp://localhost', (err, conn) => {
+    if (err) {
+      ...
+    }
+
+    conn.on('close', (err) => {
+      ...
+    });
+
+    console.log('Connected to RabbitMQ server!');
+
+    conn.createChannel((err, channel) => {
+      return callback(err, channel);
+    });
+  });
 }
 ```
 
@@ -80,7 +78,7 @@ const amqp = require('amqplib/callback_api');
 function connect(interval, callback) {
   amqp.connect('amqp://localhost', (err, conn) => {
     if (err) {
-      console.log('Cannot connect to to RabbitMQ server! Retrying to connect...');
+      console.log('Cannot connect to RabbitMQ server! Retrying to connect...');
 
       return setTimeout(connect.bind(null, interval, callback), interval);
     }
@@ -100,11 +98,13 @@ function connect(interval, callback) {
       return callback(err, channel);
     });
   });
-
 }
 
 connect(2000, (err, ch) => {
-	if (!err)
- 		console.log('Yeeehaaa!');
+  if (!err)
+    console.log('Yeeehaaa!');
 });
 ```
+
+##Testing
+Try to run the example and after a few seconds try to shutdown and restart the RabbitMQ server.

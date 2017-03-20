@@ -23,7 +23,6 @@ function connect(interval, callback) {
       return callback(err, channel);
     });
   });
-
 }
 
 connect(2000, (err, ch) => {
